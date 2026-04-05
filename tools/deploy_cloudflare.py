@@ -29,7 +29,7 @@ import sys
 from datetime import datetime, timezone
 
 GITHUB_REPO = "https://github.com/CZmichalholec/commandzero"
-CF_PAGES_URL = "https://commandzero.pages.dev"  # update if your project URL differs
+CF_PAGES_URL = "https://commandzero.michal-holec.workers.dev"
 REMOTE_NAME  = "origin"
 REMOTE_URL   = "https://github.com/CZmichalholec/commandzero.git"
 BRANCH       = "main"
