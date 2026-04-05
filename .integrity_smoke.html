@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Integrity Smoke</title></head>
+<body data-status="PENDING"><pre id="result">BOOT</pre>
+<script>
+(async function() {
+  const resultEl = document.getElementById('result');
+  try {
+    const resp = await fetch('/index.html');
+    let html = await resp.text();
+    const injected = `<base href="http://127.0.0.1:33765/"><script>window.__integrityErrors=[];window.addEventListener('error',function(e){var t=e.target||{};var url=t.src||t.href||e.filename||'';window.__integrityErrors.push({message:e.message||'resource error',url:String(url||''),lineno:e.lineno||0,colno:e.colno||0});},true);window.addEventListener('unhandledrejection',function(e){var r=e.reason;window.__integrityErrors.push({message:'unhandledrejection: '+String((r&&(r.stack||r.message))||r),url:''});});</`+`script>`;
+    html = html.replace('</head>', injected + '</head>');
+    const threeNeedle = `<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js" onerror="(function(){var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r149/three.min.js';document.head.appendChild(s);}())"></script>`;
+    html = html.replace(threeNeedle, '<script>window.THREE=window.THREE||{};<\/script>');
+    const frame = document.createElement('iframe');
+    frame.id = 'app';
+    frame.style.width = '1280px';
+    frame.style.height = '900px';
+    document.body.appendChild(frame);
+    frame.srcdoc = html;
+    frame.onload = function() {
+      setTimeout(function() {
+        const w = frame.contentWindow;
+        const d = frame.contentDocument;
+        const checks = {
+          menuShowSP: typeof w.menuShowSP === 'function',
+          menuStartSP: typeof w.menuStartSP === 'function',
+          menuShowMP: typeof w.menuShowMP === 'function',
+          menuShowSettings: typeof w.menuShowSettings === 'function',
+          buildCmd: typeof w.buildCmd === 'function',
+          mpConnect: typeof w.mpConnect === 'function',
+          canvas: !!d.getElementById('canvas'),
+          header: !!d.getElementById('header'),
+          spPanel: !!d.getElementById('sp-panel')
+        };
+        const invokeErrors = [];
+        try { if (checks.menuShowSP) w.menuShowSP(); } catch (err) { invokeErrors.push('menuShowSP: ' + err.message); }
+        try { if (checks.menuShowMP) w.menuShowMP(); } catch (err) { invokeErrors.push('menuShowMP: ' + err.message); }
+        try { if (checks.menuShowSettings) w.menuShowSettings(); } catch (err) { invokeErrors.push('menuShowSettings: ' + err.message); }
+        const errs = Array.isArray(w.__integrityErrors) ? w.__integrityErrors : [];
+        const localErrors = errs.filter(e => !e.url || e.url.startsWith('http://127.0.0.1:33765/') || e.url === 'about:srcdoc');
+        const out = {checks, invokeErrors, localErrors, allErrors: errs};
+        const pass = Object.values(checks).every(Boolean) && invokeErrors.length === 0 && localErrors.length === 0;
+        document.body.setAttribute('data-status', pass ? 'PASS' : 'FAIL');
+        resultEl.textContent = JSON.stringify(out, null, 2);
+      }, 4500);
+    };
+  } catch (err) {
+    document.body.setAttribute('data-status', 'FAIL');
+    resultEl.textContent = JSON.stringify({fatal: String(err && (err.stack || err.message || err))}, null, 2);
+  }
+})();
+</script></body></html>

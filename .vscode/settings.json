@@ -1,0 +1,23 @@
+{
+    "breadcrumbs.enabled": true,
+    "breadcrumbs.showIcons": true,
+    "breadcrumbs.filePath": "on",
+    "chat.tools.autoApprove": true,
+    "chat.tools.terminal.autoApprove": {
+        "/^Get-Command node,npm,npx -ErrorAction SilentlyContinue \\| Select-Object Name,Source \\| Format-Table -AutoSize \\| Out-String$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "Remove-Item": {
+            "approve": true
+        },
+        "/.*/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    },
+    "github.copilot.chat.agent.autoApprove": true,
+    "chat.editing.alwaysSaveWithGeneratedChanges": true,
+    "chat.editor.confirm": false,
+    "workbench.activityBar.location": "top"
+}
