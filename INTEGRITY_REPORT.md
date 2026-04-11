@@ -1,6 +1,6 @@
 # INTEGRITY REPORT
 
-Overall status: **PASS**
+Overall status: **FAIL**
 
 ## css_reconstruction_exact
 - Status: **PASS**
@@ -16,17 +16,17 @@ Overall status: **PASS**
 ```json
 {
   "expected_len": 806062,
-  "actual_len": 823574,
+  "actual_len": 824462,
   "note": "Advisory after intentional code edits. Delta is expected when chunks are optimized."
 }
 ```
 
 ## index_matches_expected
-- Status: **PASS**
+- Status: **FAIL**
 ```json
 {
   "expected_len": 15190,
-  "actual_len": 15190
+  "actual_len": 15182
 }
 ```
 

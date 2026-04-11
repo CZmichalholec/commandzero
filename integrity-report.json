@@ -1,6 +1,6 @@
 {
-  "all_ok": true,
-  "root": "C:\\temp\\command_zero_station_split_project_fixed",
+  "all_ok": false,
+  "root": "C:\\temp\\command_zero_station_split_project_fixed\\command_zero_station_split_project_fixed",
   "checks": {
     "css_reconstruction_exact": {
       "ok": true,
@@ -14,15 +14,15 @@
       "warn_only": true,
       "details": {
         "expected_len": 806062,
-        "actual_len": 823574,
+        "actual_len": 824462,
         "note": "Advisory after intentional code edits. Delta is expected when chunks are optimized."
       }
     },
     "index_matches_expected": {
-      "ok": true,
+      "ok": false,
       "details": {
         "expected_len": 15190,
-        "actual_len": 15190
+        "actual_len": 15182
       }
     },
     "local_references_exist": {
