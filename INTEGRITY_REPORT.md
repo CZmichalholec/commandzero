@@ -16,7 +16,7 @@ Overall status: **FAIL**
 ```json
 {
   "expected_len": 806062,
-  "actual_len": 824462,
+  "actual_len": 825803,
   "note": "Advisory after intentional code edits. Delta is expected when chunks are optimized."
 }
 ```
